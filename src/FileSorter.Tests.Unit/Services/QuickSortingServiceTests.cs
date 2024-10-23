@@ -1,4 +1,3 @@
-using FileSorter.Models;
 using FileSorter.Services;
 using Xunit;
 
@@ -12,23 +11,23 @@ public class QuickSortingServiceTests
     public void Sort_SortsCorrectly()
     {
         // Arrange
-        var lines = new List<FileItem>
+        var lines = new[]
         {
-            new(415, "Apple"),
-            new(30432, "Something something something"),
-            new(1, "Apple"),
-            new(32, "Cherry is the best"),
-            new(2, "Banana is yellow")
+            "415. Apple",
+            "30432. Something something something",
+            "1. Apple",
+            "32. Cherry is the best",
+            "2. Banana is yellow"
         };
         
         _quickSortingService.Sort(lines);
 
         // Assert
-        Assert.Equal("1. Apple", lines[0].ToString());
-        Assert.Equal("415. Apple", lines[1].ToString());
-        Assert.Equal("2. Banana is yellow", lines[2].ToString());
-        Assert.Equal("32. Cherry is the best", lines[3].ToString());
-        Assert.Equal("30432. Something something something", lines[4].ToString());
+        Assert.Equal("1. Apple", lines[0]);
+        Assert.Equal("415. Apple", lines[1]);
+        Assert.Equal("2. Banana is yellow", lines[2]);
+        Assert.Equal("32. Cherry is the best", lines[3]);
+        Assert.Equal("30432. Something something something", lines[4]);
     }
     
     // TODO: Add more tests

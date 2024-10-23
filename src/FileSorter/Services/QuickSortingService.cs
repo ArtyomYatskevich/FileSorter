@@ -1,17 +1,17 @@
-using FileSorter.Models;
-
 namespace FileSorter.Services;
 
 public class QuickSortingService : ISortingService
 {
-    public void Sort(List<FileItem> lines)
+    private const StringComparison DefaultStringComparison = StringComparison.InvariantCultureIgnoreCase;
+    
+    public void Sort(string[] lines)
     {
-        Sort(lines, 0, lines.Count - 1);
+        Sort(lines, 0, lines.Length - 1);
     }
 
     #region private methods
     
-    private void Sort(List<FileItem> lines, int low, int high)
+    private void Sort(string[] lines, int low, int high)
     {
         if (low >= high) return;
 
@@ -22,7 +22,7 @@ public class QuickSortingService : ISortingService
         Sort(lines, pivotIndex + 1, high);
     }
 
-    private int Partition(List<FileItem> lines, int low, int high, int pivotIndex)
+    private int Partition(string[] lines, int low, int high, int pivotIndex)
     {
         var pivotValue = lines[pivotIndex];
         Swap(lines, pivotIndex, high);
@@ -30,7 +30,7 @@ public class QuickSortingService : ISortingService
 
         for (var i = low; i < high; i++)
         {
-            if (lines[i].CompareTo(pivotValue) >= 0) continue;
+            if (string.Compare(lines[i], pivotValue, DefaultStringComparison) >= 0) continue;
             
             Swap(lines, i, storeIndex);
             storeIndex++;
@@ -40,18 +40,18 @@ public class QuickSortingService : ISortingService
         return storeIndex;
     }
 
-    private int MedianOfThree(List<FileItem> lines, int low, int high)
+    private int MedianOfThree(string[] lines, int low, int high)
     {
         var mid = low + (high - low) / 2;
 
-        if (lines[low].CompareTo(lines[mid]) > 0) Swap(lines, low, mid);
-        if (lines[low].CompareTo(lines[high]) > 0) Swap(lines, low, high);
-        if (lines[mid].CompareTo(lines[high]) > 0) Swap(lines, mid, high);
+        if (string.Compare(lines[low], lines[mid], DefaultStringComparison) > 0) Swap(lines, low, mid);
+        if (string.Compare(lines[low], lines[high], DefaultStringComparison) > 0) Swap(lines, low, high);
+        if (string.Compare(lines[mid], lines[high], DefaultStringComparison) > 0) Swap(lines, mid, high);
 
         return mid;
     }
 
-    private void Swap(List<FileItem> lines, int i, int j)
+    private void Swap(string[] lines, int i, int j)
     {
         (lines[i], lines[j]) = (lines[j], lines[i]);
     }
